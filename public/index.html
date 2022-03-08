@@ -4,9 +4,70 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Acceso Denegado</title>
+        <title>Google Sign-in</title>
     </head>
     <body>
-        <h1>Acceso Denegado</h1>
+        <h1>Google Sign-in</h1>
+        <hr />
+
+        <div
+            id="g_id_onload"
+            data-client_id="1068565403400-q4pt3dktnqsn46fbhdu6hdgaffaqdvap.apps.googleusercontent.com"
+            data-callback="handleCredentialResponse"
+            data-auto_prompt="false"
+        ></div>
+        <div
+            class="g_id_signin"
+            data-type="standard"
+            data-size="large"
+            data-theme="outline"
+            data-text="sign_in_with"
+            data-shape="rectangular"
+            data-logo_alignment="left"
+        ></div>
+
+        <button id="google_signout">SignOut</button>
+
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+        <script>
+            function handleCredentialResponse(response) {
+                // google token
+                console.log(response.credential);
+
+                const _body = {
+                    id_token: response.credential,
+                };
+
+                fetch("http://localhost:8080/api/auth/google", {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                    body: JSON.stringify(_body),
+                })
+                    .then((response) => response.json())
+                    .then((response) => {
+                        console.log("response", response);
+                        localStorage.setItem("userEmailGooleLogged", response.user.email);
+                        location.reload();
+                    })
+                    .catch((error) => {
+                        console.log("Error front google sing-in", error);
+                    });
+            }
+
+            //SignOut
+            const btn_signOut = document.getElementById("google_signout");
+
+            btn_signOut.onclick = () => {
+                google.accounts.id.disableAutoSelect();
+
+                google.accounts.id.revoke(localStorage.getItem("userEmailGooleLogged"), () => {
+                    localStorage.clear();
+                    location.reload();
+                });
+            };
+        </script>
     </body>
 </html>
