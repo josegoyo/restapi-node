@@ -1,6 +1,7 @@
 const Role = require("../models/role");
 const User = require("../models/user");
 const Category = require("../models/category");
+const Product = require("../models/product.js");
 
 const isRoleValid = async (role = "") => {
     const existRol = await Role.findOne({ rol: role });
@@ -33,9 +34,18 @@ const existCategory = async (id) => {
     }
 };
 
+const existProduct = async (id) => {
+    const _existProduct = await Product.findById(id);
+
+    if (!_existProduct) {
+        throw new Error(`EL id (${id}) enviado no coincide con ningun producto`);
+    }
+};
+
 module.exports = {
     isRoleValid,
     isNotRepeatEmail,
     existUseById,
     existCategory,
+    existProduct,
 };

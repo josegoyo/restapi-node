@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const categorySchema = Schema({
+const CategorySchema = Schema({
     name: {
         type: String,
         required: [true, "El nombre de la categoria es requerida"],
@@ -19,11 +19,11 @@ const categorySchema = Schema({
 });
 
 // delete pass in my response
-categorySchema.methods.toJSON = function () {
+CategorySchema.methods.toJSON = function () {
     const { __v, _id, ...category } = this.toObject();
     category.uid = _id;
 
     return category;
 };
 
-module.exports = model("Category", categorySchema);
+module.exports = model("Category", CategorySchema);
