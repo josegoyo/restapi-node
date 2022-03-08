@@ -3,7 +3,6 @@ const { check } = require("express-validator");
 
 const { _GET, _PUT, _POST, _DELETE } = require("../controllers/users");
 const { isRoleValid, isNotRepeatEmail, existUseById } = require("../helpers/db-validators");
-
 const { validatorParams, validateJWT, isAdminRole, isValidRole } = require("../middlewares");
 
 const router = Router();

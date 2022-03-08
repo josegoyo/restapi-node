@@ -66,7 +66,6 @@ const _google = async (req, res = response) => {
             user = await user.save();
         }
 
-        console.log("useruser", user);
         if (!user.status) {
             return res.status(401).json({
                 msg: `Error Google Sing-in | favor de hablar con el administrador (usuario eliminado)`,

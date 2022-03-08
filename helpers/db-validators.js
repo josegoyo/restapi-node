@@ -1,5 +1,6 @@
 const Role = require("../models/role");
 const User = require("../models/user");
+const Category = require("../models/category");
 
 const isRoleValid = async (role = "") => {
     const existRol = await Role.findOne({ rol: role });
@@ -24,8 +25,17 @@ const existUseById = async (id) => {
     }
 };
 
+const existCategory = async (id) => {
+    const _existCategory = await Category.findById(id);
+
+    if (!_existCategory) {
+        throw new Error(`EL id (${id}) enviado no coincide con ninguna categoria`);
+    }
+};
+
 module.exports = {
     isRoleValid,
     isNotRepeatEmail,
     existUseById,
+    existCategory,
 };
