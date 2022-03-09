@@ -1,9 +1,9 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
 
-const { _POST, _PUT, _GET } = require("../controllers/uploads");
-const { availableCollections, existUseById } = require("../helpers/db-validators");
-const { validatorParams, validateJWT, isAdminRole, isValidRole, validateFile } = require("../middlewares");
+const { _POST, _PUT, _GET, _PUT_CLOUDINARY } = require("../controllers/uploads");
+const { availableCollections } = require("../helpers/db-validators");
+const { validatorParams, validateFile } = require("../middlewares");
 
 const router = Router();
 
@@ -16,7 +16,8 @@ router.put(
         check("collection").custom((collection) => availableCollections(collection, ["users", "products"])),
         validatorParams,
     ],
-    _PUT
+    _PUT_CLOUDINARY
+    //_PUT
 );
 router.get(
     "/:collection/:id",
