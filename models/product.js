@@ -16,6 +16,7 @@ const ProductSchema = Schema({
         ref: "User",
         required: true,
     },
+    img: { type: String },
     category: {
         type: Schema.Types.ObjectId,
         ref: "Category",
