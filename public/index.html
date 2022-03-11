@@ -34,52 +34,26 @@
                     data-logo_alignment="left"
                 ></div>
                 <br />
+                <button id="google_signout" class="btn btn-danger">Sign-out</button>
             </div>
-            <div class="col-sm-6"></div>
+            <div class="col-sm-6">
+                <h1>Login Manual</h1>
+                <hr />
+                <form>
+                    <input type="text" name="email" class="form-control mb-2" placeholder="correo" />
+                    <input
+                        type="password"
+                        name="password"
+                        class="form-control mb-2"
+                        placeholder="contrasena"
+                    />
+
+                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                </form>
+            </div>
         </div>
 
-        <button id="google_signout">SignOut</button>
-
         <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-        <script>
-            function handleCredentialResponse(response) {
-                // google token
-                console.log(response.credential);
-
-                const _body = {
-                    id_token: response.credential,
-                };
-
-                fetch("http://localhost:8080/api/auth/google", {
-                    method: "POST",
-                    headers: {
-                        "Content-type": "application/json",
-                    },
-                    body: JSON.stringify(_body),
-                })
-                    .then((response) => response.json())
-                    .then((response) => {
-                        console.log("response", response);
-                        localStorage.setItem("userEmailGooleLogged", response.user.email);
-                        location.reload();
-                    })
-                    .catch((error) => {
-                        console.log("Error front google sing-in", error);
-                    });
-            }
-
-            //SignOut
-            const btn_signOut = document.getElementById("google_signout");
-
-            btn_signOut.onclick = () => {
-                google.accounts.id.disableAutoSelect();
-
-                google.accounts.id.revoke(localStorage.getItem("userEmailGooleLogged"), () => {
-                    localStorage.clear();
-                    location.reload();
-                });
-            };
-        </script>
+        <script src="./js/auth.js"></script>
     </body>
 </html>
